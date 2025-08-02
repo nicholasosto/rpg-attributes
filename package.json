@@ -1,5 +1,5 @@
 {
-  "name": "@rbxts/rpg-attributes",
+  "name": "@trembus/rpg-attributes",
   "version": "1.0.0-alpha.1",
   "description": "A comprehensive RPG attribute system for Roblox-TS with Fusion integration. Provides type-safe attribute management, reactive state, and UI components for RPG games.",
   "main": "out/init.lua",
