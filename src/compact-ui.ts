@@ -3,7 +3,7 @@
  * Streamlined Fusion components for RPG attributes
  */
 
-import { Computed, Value, New, Children } from "@rbxts/fusion";
+import { Computed, New, Children } from "@rbxts/fusion";
 import { AttributeKey, ReactiveAttributeState } from "./compact-core";
 
 export interface AttributeDisplayProps {
