@@ -2,7 +2,7 @@
  * RPG Attributes - Compact Core
  * A streamlined attribute system for Roblox-TS with Fusion integration
  * @module @trembus/rpg-attributes
- * @version 1.0.0-alpha.3-compact
+ * @version 1.0.0-alpha.3
  * @author Trembus
  * @license MIT
  */

@@ -26,9 +26,31 @@ pnpm add @trembus/rpg-attributes
 ### Basic Usage
 
 ```typescript
-import { AttributeManager, AttributeCatalog, ATTRIBUTE_KEYS, AttributeKey } from "@trembus/rpg-attributes";
+import { SimpleAttributeManager, AttributeCatalog, ATTRIBUTE_KEYS, AttributeKey } from "@trembus/rpg-attributes";
 
-// Create a simple attribute manager
+// Create a simple attribute manager using the included implementation
+const attributes = new SimpleAttributeManager({ 
+    initialValues: { vitality: 10, strength: 8 },
+    maxValue: 100,
+    minValue: 0
+});
+
+// Set values
+attributes.setBase("vitality", 15);
+attributes.setEquipment("strength", 5);
+
+// Get reactive states for UI
+const vitalityState = attributes.getState("vitality");
+const totalVitality = vitalityState.totalValue; // Fusion Computed - reactive!
+```
+
+### Custom Implementation
+
+For custom behavior, extend the abstract `AttributeManager` class:
+
+```typescript
+import { AttributeManager, AttributeKey } from "@trembus/rpg-attributes";
+
 class MyAttributes extends AttributeManager {
     protected validate(key: AttributeKey, value: number): boolean {
         return value >= 0 && value <= 100;
@@ -44,19 +66,6 @@ class MyAttributes extends AttributeManager {
         // ... your persistence logic
     }
 }
-
-// Initialize and use
-const attributes = new MyAttributes({ 
-    initialValues: { vitality: 10, strength: 8 } 
-});
-
-// Set values
-attributes.setBase("vitality", 15);
-attributes.setEquipment("strength", 5);
-
-// Get reactive states for UI
-const vitalityState = attributes.getState("vitality");
-const totalVitality = vitalityState.totalValue; // Fusion Computed - reactive!
 ```
 
 ### UI Integration
@@ -64,20 +73,50 @@ const totalVitality = vitalityState.totalValue; // Fusion Computed - reactive!
 ```typescript
 import { AttributeDisplay, AttributeBar } from "@trembus/rpg-attributes";
 
-// Create attribute display UI
+// Create attribute display UI - shows icon, name, value, and breakdown
 const vitalityDisplay = AttributeDisplay({
     attribute: attributes.getState("vitality"),
     key: "vitality",
     Size: UDim2.fromScale(1, 0.2),
+    BackgroundColor3: Color3.fromRGB(40, 40, 40),
+    TextColor3: Color3.fromRGB(255, 255, 255),
 });
 
-// Create attribute bar
+// Create attribute bar - shows value as a progress bar
 const healthBar = AttributeBar({
     attribute: attributes.getState("vitality"),
     maxValue: 100,
     fillColor: Color3.fromRGB(255, 100, 100),
 });
 ```
+
+## UI Components
+
+### AttributeDisplay
+
+Creates a complete attribute display with icon, name, total value, and breakdown:
+
+```typescript
+interface AttributeDisplayProps {
+    attribute: ReactiveAttributeState;
+    key: AttributeKey;
+    Size?: UDim2;
+    Position?: UDim2;
+    BackgroundColor3?: Color3;
+    TextColor3?: Color3;
+}
+```
+
+### AttributeBar
+
+Creates a progress bar representation of an attribute:
+
+```typescript
+interface AttributeBarProps {
+    attribute: ReactiveAttributeState;
+    maxValue?: number;      // Default: 100
+    fillColor?: Color3;     // Default: green
+}
 
 ## Core Types
 
@@ -115,8 +154,8 @@ type AttributesState = {
 |-----------|-------------|---------|
 | **Vitality** | Increases maximum health points | Higher HP pool for survival |
 | **Strength** | Increases physical damage dealt | Enhanced melee/weapon damage |
-| **Agility** | Increases accuracy and evasion | Better hit chance and dodge rate |
-| **Intellect** | Increases magic damage dealt | Boosted magical damage output |
+| **Agility** | Increases movement speed and dodge chance | Better movement speed and evasion |
+| **Intellect** | Increases mana pool and spell damage | More mana and stronger spells |
 | **Luck** | Increases chance for critical hits | Higher crit chance and rare drops |
 
 ## API Reference
