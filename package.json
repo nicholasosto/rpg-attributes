@@ -1,7 +1,7 @@
 {
   "name": "@trembus/rpg-attributes",
-  "version": "1.0.0-alpha.2",
-  "description": "A comprehensive RPG attribute system for Roblox-TS with Fusion integration. Provides type-safe attribute management, reactive state, and UI components for RPG games.",
+  "version": "1.0.0-alpha.3",
+  "description": "A streamlined RPG attribute system for Roblox-TS with Fusion integration. Compact version with reactive state management and UI components.",
   "main": "out/init.lua",
   "scripts": {
     "build": "rbxtsc",
